@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Creators - Muse</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs"></script>
+  <link rel="stylesheet" href="css/custom.css"/>
+</head>
+<body class="theme-green overflow-x-hidden" style="background:#FBF2DA; color:#2A2318;">
+
+  <nav x-data="{ open: false }" style="background:rgba(251,242,218,0.95); border-bottom:1px solid #D19175;"
+       class="fixed top-0 left-0 w-full z-50 backdrop-blur-sm">
+    <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-[64px]">
+      <a href="professional_site.html" class="flex items-center gap-2">
+        <span class="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#8BA33E;">M</span>
+        <span class="font-display text-[22px] tracking-wide" style="color:#2A2318;">Muse</span>
+      </a>
+      <button @click="open = !open" class="md:hidden p-2 flex flex-col gap-[5px]" aria-label="Toggle menu">
+        <span class="block w-5 h-[2px] transition-all" style="background:#2A2318;" :class="open?'rotate-45 translate-y-[7px]':''"></span>
+        <span class="block w-5 h-[2px] transition-all" style="background:#2A2318;" :class="open?'opacity-0':''"></span>
+        <span class="block w-5 h-[2px] transition-all" style="background:#2A2318;" :class="open?'-rotate-45 -translate-y-[7px]':''"></span>
+      </button>
+      <div :class="open ? 'block' : 'hidden'"
+           class="md:!block absolute md:static top-[64px] left-0 right-0 md:bg-transparent
+                  px-6 py-6 md:p-0 md:flex md:items-center md:gap-10 md:text-sm"
+           style="background:#FBF2DA; border-bottom:1px solid #D19175;">
+        <a href="professional_site.html" class="block md:inline nav-link py-2 md:py-0 text-sm whitespace-nowrap" style="color:#2A2318;">Home</a>
+        <a href="portfolio.html" class="block md:inline nav-link py-2 md:py-0 text-sm whitespace-nowrap" style="color:#2A2318;">Creators</a>
+        <a href="contact.html" class="block md:inline nav-link py-2 md:py-0 text-sm whitespace-nowrap" style="color:#2A2318;">Post a Brief</a>
+        <a href="contact.html" class="mt-4 md:mt-0 inline-block px-4 py-1.5 text-[11px] tracking-wide rounded-sm text-white hover:opacity-80 transition-opacity whitespace-nowrap" style="background:#8BA33E;">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="pt-[64px] overflow-hidden" style="background:#41450C;">
+    <div class="max-w-6xl mx-auto px-4 py-16 md:py-20 relative">
+      <div class="hero-blob w-[300px] h-[300px] top-0 right-0 opacity-20" style="background:#8BA33E;"></div>
+      <span class="tag tag-accent mb-5 inline-block" style="background:#8BA33E; color:white;">320+ Creators</span>
+      <h1 class="font-display leading-none relative z-10" style="font-size:clamp(40px,8vw,90px); color:#FBF2DA;">
+        Creator<br/><span style="font-style:italic; color:#D19175;">Directory</span>
+      </h1>
+      <p class="mt-5 max-w-lg text-lg font-light" style="color:#8A7A5A;">Every creator is an individual. Every piece has a story. Find the one whose frequency matches yours.</p>
+    </div>
+  </header>
+
+  <section x-data="{
+    activeFilter: 'All',
+    filters: ['All','Illustration','Photography','Design','Motion'],
+    creators: [
+      { name:'Rei Li', type:'Illustration', style:'Character Design · Original IP', price:'from $120', rating:'4.9', orders:87, avatar:'images/sel.jpg', work:'images/pig.png' },
+      { name:'Rei Li', type:'Design', style:'Brand Identity · Print', price:'from $200', rating:'5.0', orders:54, avatar:'images/sel.jpg', work:'images/dog.jpg' },
+      { name:'Rei Li', type:'Photography', style:'Commercial · Portrait', price:'from $90', rating:'4.8', orders:120, avatar:'images/sel.jpg', work:'images/cat1.jpg' },
+      { name:'Rei Li', type:'Motion', style:'UI Motion · Brand Animation', price:'from $250', rating:'4.9', orders:43, avatar:'images/sel.jpg', work:'images/bird.jpg' },
+      { name:'Rei Li', type:'Illustration', style:'Watercolor · Book Covers', price:'from $80', rating:'4.7', orders:95, avatar:'images/sel.jpg', work:'images/cat2.jpg' },
+      { name:'Rei Li', type:'Photography', style:'Product · Still Life', price:'from $130', rating:'4.8', orders:67, avatar:'images/sel.jpg', work:'images/pig.png' },
+      { name:'Rei Li', type:'Design', style:'Packaging · Typography', price:'from $150', rating:'5.0', orders:38, avatar:'images/sel.jpg', work:'images/dog.jpg' },
+      { name:'Rei Li', type:'Motion', style:'3D Animation · Concept Visuals', price:'from $340', rating:'4.9', orders:29, avatar:'images/sel.jpg', work:'images/cat1.jpg' },
+      { name:'Rei Li', type:'Illustration', style:'Children Books · Editorial', price:'from $95', rating:'4.8', orders:72, avatar:'images/sel.jpg', work:'images/bird.jpg' }
+    ],
+    get filtered() { return this.activeFilter === 'All' ? this.creators : this.creators.filter(c => c.type === this.activeFilter); }
+  }" class="max-w-6xl mx-auto px-4 py-16">
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+      <div class="flex flex-wrap gap-2">
+        <template x-for="f in filters" :key="f">
+          <button @click="activeFilter = f"
+                  class="px-4 py-2 text-xs tracking-wide rounded-sm border font-medium transition-colors"
+                  :style="activeFilter === f ? 'background:#8BA33E;color:white;border-color:#8BA33E;' : 'background:transparent;color:#2A2318;border-color:#D19175;'"
+                  x-text="f"></button>
+        </template>
+      </div>
+      <p class="text-xs" style="color:#7A6E5A;"><span class="font-semibold" style="color:#8BA33E;" x-text="filtered.length"></span> creators found</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <template x-for="c in filtered" :key="c.name + c.type + c.work">
+        <div class="creator-card overflow-hidden cursor-pointer group" @click="window.location='contact.html'">
+          <div class="img-zoom overflow-hidden" style="aspect-ratio:4/3;">
+            <img :src="c.work" :alt="c.name" class="w-full h-full object-contain bg-white"/>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-3 mb-3">
+              <img :src="c.avatar" :alt="c.name" class="w-10 h-10 rounded-full object-cover avatar-ring"/>
+              <div>
+                <p class="font-medium text-sm" style="color:#2A2318;" x-text="c.name"></p>
+                <p class="text-xs" style="color:#7A6E5A;" x-text="c.style"></p>
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="tag" x-text="c.type"></span>
+                <span class="text-xs" style="color:#7A6E5A;" x-text="'★ ' + c.rating + ' · ' + c.orders + ' orders'"></span>
+              </div>
+              <span class="text-sm font-semibold" style="color:#8BA33E;" x-text="c.price"></span>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <div x-show="filtered.length === 0" class="text-center py-20" style="color:#7A6E5A;">
+      <p class="font-display text-[36px]">No creators yet</p>
+      <p class="text-sm mt-2">Try a different category.</p>
+    </div>
+  </section>
+
+  <section class="py-20 reveal" style="background:#E8DFC8;">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <span class="tag mb-4 inline-block">For Creators</span>
+      <h2 class="font-display leading-tight mb-4" style="font-size:clamp(32px,5vw,56px);">Take commissions<br/><span style="font-style:italic;color:#8BA33E;">on your terms</span></h2>
+      <p class="max-w-md mx-auto text-sm leading-relaxed mb-8" style="color:#7A6E5A;">Join Muse for free, showcase your portfolio, and connect with clients who genuinely value your work.</p>
+      <a href="contact.html" class="px-10 py-3 text-sm tracking-wide rounded-sm text-white font-medium hover:opacity-80 transition-opacity inline-block" style="background:#41450C;">Apply to Join</a>
+    </div>
+  </section>
+
+  <footer class="py-12" style="background:#41450C; border-top:1px solid #2A2900;">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div class="flex items-center gap-2">
+        <span class="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold" style="background:#8BA33E;">M</span>
+        <span class="font-display text-[20px] text-white tracking-wide">Muse</span>
+      </div>
+      <div class="flex gap-8 text-sm" style="color:#8A7A5A;">
+        <a href="professional_site.html" class="hover:text-white transition-colors">Home</a>
+        <a href="portfolio.html" class="hover:text-white transition-colors">Creators</a>
+        <a href="contact.html" class="hover:text-white transition-colors">Post a Brief</a>
+      </div>
+      <p class="text-xs" style="color:#4A4518;">© 2025 Muse. Where creativity meets opportunity.</p>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('is-visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+
+.container {
+  width: 960px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+header, footer, nav {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+main {
+  display: block;
+  padding: 0;
+}
+
+.column1, .column2, .column3 {
+  float: left;
+  width: 32%;
+  box-sizing: border-box;
+  padding: 0 5px;
+}
+
+main::after {
+  content: "";
+  display: table;
+  clear: both;
+}

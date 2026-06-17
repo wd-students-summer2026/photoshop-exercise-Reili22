@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post a Brief - Muse</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css"/>
+</head>
+<body class="theme-pink overflow-x-hidden" style="background:#FFF0F5; color:#2A1018;">
+
+  <nav x-data="{ open: false }" style="background:rgba(255,240,245,0.95); border-bottom:1px solid #FFB8E3;"
+       class="fixed top-0 left-0 w-full z-50 backdrop-blur-sm">
+    <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-[64px]">
+      <a href="professional_site.html" class="flex items-center gap-2">
+        <span class="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:#CE4A4A;">M</span>
+        <span class="font-display text-[22px] tracking-wide" style="color:#2A1018;">Muse</span>
+      </a>
+      <button @click="open = !open" class="md:hidden p-2 flex flex-col gap-[5px]" aria-label="Toggle menu">
+        <span class="block w-5 h-[2px] transition-all" style="background:#2A1018;" :class="open?'rotate-45 translate-y-[7px]':''"></span>
+        <span class="block w-5 h-[2px] transition-all" style="background:#2A1018;" :class="open?'opacity-0':''"></span>
+        <span class="block w-5 h-[2px] transition-all" style="background:#2A1018;" :class="open?'-rotate-45 -translate-y-[7px]':''"></span>
+      </button>
+      <div :class="open ? 'block' : 'hidden'"
+           class="md:!block absolute md:static top-[64px] left-0 right-0 md:bg-transparent
+                  px-6 py-6 md:p-0 md:flex md:items-center md:gap-10 md:text-sm"
+           style="background:#FFF0F5; border-bottom:1px solid #FFB8E3;">
+        <a href="professional_site.html" class="block md:inline nav-link py-2 md:py-0 text-sm whitespace-nowrap" style="color:#2A1018;">Home</a>
+        <a href="portfolio.html" class="block md:inline nav-link py-2 md:py-0 text-sm whitespace-nowrap" style="color:#2A1018;">Creators</a>
+        <a href="contact.html" class="block md:inline nav-link py-2 md:py-0 text-sm whitespace-nowrap" style="color:#2A1018;">Post a Brief</a>
+        <a href="contact.html" class="mt-4 md:mt-0 inline-block px-4 py-1.5 text-[11px] tracking-wide rounded-sm text-white hover:opacity-80 transition-opacity whitespace-nowrap" style="background:#CE4A4A;">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="pt-[64px] relative overflow-hidden">
+    <div class="hero-blob w-[400px] h-[400px] top-0 right-[-10%]" style="background:#FFB8E3;"></div>
+    <div class="hero-blob w-[250px] h-[250px] bottom-0 left-[10%]" style="background:#EDF8E5;"></div>
+    <div class="max-w-6xl mx-auto px-4 py-16 md:py-20 relative z-10">
+      <span class="tag tag-accent mb-5 inline-block" style="background:#FF819C; color:white;">Post a Brief</span>
+      <h1 class="font-display leading-none" style="font-size:clamp(44px,8vw,90px); color:#2A1018;">
+        Tell us<br/><span style="font-style:italic; color:#CE4A4A;">what you need</span>
+      </h1>
+      <p class="mt-5 text-lg font-light max-w-lg" style="color:#8A6070;">Describe your project and we'll help you find the right creator. Or browse the directory and reach out directly.</p>
+    </div>
+  </header>
+
+  <section class="max-w-6xl mx-auto px-4 pb-28 pt-4">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+
+      <div class="lg:col-span-3"
+        x-data="{
+          name:'', email:'', type:'', budget:'', deadline:'', desc:'',
+          submitted:false,
+          submit(){ if(this.name&&this.email&&this.type&&this.desc) this.submitted=true; }
+        }"
+      >
+        <div x-show="submitted" x-transition class="flex flex-col items-center text-center py-16">
+          <div class="w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl mb-5" style="background:#CE4A4A;">✓</div>
+          <h3 class="font-display leading-none mb-3" style="font-size:40px;">Brief sent!</h3>
+          <p class="text-sm max-w-sm" style="color:#8A6070;">We'll match you with suitable creators within 24 hours. Check your inbox.</p>
+          <button @click="submitted=false;name='';email='';type='';budget='';deadline='';desc=''"
+                  class="mt-8 px-6 py-2 text-xs tracking-wide rounded-sm transition-colors border hover:opacity-70"
+                  style="border-color:#FFB8E3; color:#8A6070;">
+            Post another brief
+          </button>
+        </div>
+
+        <form x-show="!submitted" @submit.prevent="submit()" class="flex flex-col gap-5" novalidate>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs tracking-wide uppercase mb-2" style="color:#8A6070;">Your Name *</label>
+              <input x-model="name" type="text" placeholder="e.g. Rei Li" class="form-input" required/>
+            </div>
+            <div>
+              <label class="block text-xs tracking-wide uppercase mb-2" style="color:#8A6070;">Email Address *</label>
+              <input x-model="email" type="email" placeholder="hello@example.com" class="form-input" required/>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs tracking-wide uppercase mb-2" style="color:#8A6070;">Project Type *</label>
+            <div class="flex flex-wrap gap-2">
+              <template x-for="t in ['Illustration','Photography','Brand Design','Motion','Cover Art','Other']" :key="t">
+                <button type="button" @click="type=t"
+                        class="px-4 py-2 text-xs tracking-wide rounded-sm border transition-colors"
+                        :style="type===t ? 'background:#CE4A4A;color:white;border-color:#CE4A4A;' : 'background:white;color:#2A1018;border-color:#FFB8E3;'"
+                        x-text="t"></button>
+              </template>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs tracking-wide uppercase mb-2" style="color:#8A6070;">Budget Range</label>
+              <select x-model="budget" class="form-input" style="color:#2A1018;">
+                <option value="">Flexible</option>
+                <option value="100">Under $100</option>
+                <option value="300">$100 - $300</option>
+                <option value="500">$300 - $500</option>
+                <option value="1000">$500 - $1,000</option>
+                <option value="1000+">$1,000+</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs tracking-wide uppercase mb-2" style="color:#8A6070;">Deadline</label>
+              <select x-model="deadline" class="form-input" style="color:#2A1018;">
+                <option value="">No rush</option>
+                <option value="week">Within 1 week</option>
+                <option value="2week">Within 2 weeks</option>
+                <option value="month">Within a month</option>
+                <option value="flexible">Plenty of time</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs tracking-wide uppercase mb-2" style="color:#8A6070;">Project Description *</label>
+            <textarea x-model="desc" rows="5"
+              placeholder="Tell us about your project - style, references, mood, anything that helps a creator understand your vision."
+              class="form-input resize-none" required></textarea>
+            <p class="text-right text-[11px] mt-1" style="color:#8A6070;" x-text="desc.length + ' characters'"></p>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <input type="checkbox" id="agree" class="mt-1" style="accent-color:#CE4A4A;" required/>
+            <label for="agree" class="text-xs leading-relaxed" style="color:#8A6070;">
+              I agree to let Muse share this brief with relevant creators, and to be contacted by email when a match is found.
+            </label>
+          </div>
+
+          <button type="submit" class="py-3.5 text-sm tracking-wide rounded-sm font-medium text-white w-full hover:opacity-80 transition-opacity" style="background:#CE4A4A;">
+            Submit Brief →
+          </button>
+        </form>
+      </div>
+
+      <div class="lg:col-span-2 flex flex-col gap-8 reveal reveal-delay-2">
+
+        <div class="rounded-sm p-6" style="background:white;">
+          <h3 class="font-display text-2xl mb-5">Tips for a great brief</h3>
+          <div x-data="{ active: 0 }" class="flex flex-col" style="border-top:1px solid #FFE8F3;">
+            <template x-for="(tip,i) in [
+              {q:'How do I describe my style?', a:'Reference artists you love, color moods, or words like clean, editorial, or hand-drawn. The more specific, the better.'},
+              {q:'How should I set my budget?', a:'Single illustration commissions typically start at $80-$300. Brand identity packages usually start at $500. A realistic budget attracts better matches.'},
+              {q:'Do I need reference images?', a:'Not required, but helpful. A mood board or even a few URLs can save hours of back-and-forth communication.'}
+            ]" :key="i">
+              <div class="py-4 cursor-pointer" style="border-bottom:1px solid #FFE8F3;" @click="active===i ? active=null : active=i">
+                <div class="flex justify-between items-center gap-2">
+                  <p class="text-sm font-medium" x-text="tip.q"></p>
+                  <span class="flex-shrink-0" style="color:#CE4A4A;" x-text="active===i?'−':'+'"></span>
+                </div>
+                <div x-show="active===i" x-transition class="mt-2 text-xs leading-relaxed" style="color:#8A6070;" x-text="tip.a"></div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <div class="rounded-sm p-6" style="background:#CE4A4A;">
+          <p class="text-xs tracking-widest uppercase mb-4" style="color:#F5A0A0;">Other ways to reach us</p>
+          <p class="text-white text-sm mb-1">xl5871@nyu.edu</p>
+          <p class="text-white text-sm mb-4">Email: xl5871@nyu.edu</p>
+          <p class="text-xs leading-relaxed" style="color:#F5A0A0;">Available Mon-Fri, 10am-6pm EST. Usually reply within 2 hours.</p>
+        </div>
+
+        <div class="rounded-sm p-6" style="border:1.5px solid #FFB8E3;">
+          <p class="font-display text-xl mb-2">Are you a creator?</p>
+          <p class="text-xs leading-relaxed mb-4" style="color:#8A6070;">Join Muse, showcase your work, and connect with clients who value what you do. Free to join, zero commission to start.</p>
+          <a href="portfolio.html" class="text-sm underline underline-offset-4 hover:opacity-70 transition-opacity" style="color:#CE4A4A;">Learn about joining →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-12" style="background:#2A1018; border-top:1px solid #3A2028;">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div class="flex items-center gap-2">
+        <span class="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold" style="background:#CE4A4A;">M</span>
+        <span class="font-display text-[20px] text-white tracking-wide">Muse</span>
+      </div>
+      <div class="flex gap-8 text-sm" style="color:#8A6070;">
+        <a href="professional_site.html" class="hover:text-white transition-colors">Home</a>
+        <a href="portfolio.html" class="hover:text-white transition-colors">Creators</a>
+        <a href="contact.html" class="hover:text-white transition-colors">Post a Brief</a>
+      </div>
+      <p class="text-xs" style="color:#4A2030;">© 2025 Muse. Where creativity meets opportunity.</p>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('is-visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+  <script defer src="https://unpkg.com/alpinejs"></script>
+</body>
+</html>
